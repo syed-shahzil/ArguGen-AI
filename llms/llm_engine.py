@@ -65,51 +65,19 @@ def judge_debate(total_rounds, model, statement=debating_statement):
             full_response+= chunk.choices[0].delta.content
             yield full_response
 
-def format_args_A(args_dict):
-    html = ""
-    for k, v in args_dict.items():
-        round_num = k.split('_')[1]
-        html += f"""
-        <div class="round-card favor-card">
-            <div class="round-card-title favor-title">🔵 Round {round_num}</div>
-            <div class="round-card-content">{v}</div>
-        </div>
-        """
-    return html
-
-def format_args_B(args_dict):
-    html = ""
-    for k, v in args_dict.items():
-        round_num = k.split('_')[1]
-        html += f"""
-        <div class="round-card opposition-card">
-            <div class="round-card-title opposition-title">🔴 Round {round_num}</div>
-            <div class="round-card-content opposition-content">{v}</div>
-        </div>
-        """
-    return html
-
-def format_judge(v):
-    if not v.strip(): return ""
-    return f"""
-    <div class="judge-card">
-        <h2 class="judge-title">⚖️ Final Judgment</h2>
-        <div class="judge-content">{v}</div>
-    </div>
-    """
-
+            
 def debate_func_for_gradio(statement):
     opA_argues.clear()
     opB_argues.clear()
     
     for i in range(3):
         for chunk in run_round(round=i+1,statement=statement,system_prompt=Oponent_A,model="gpt-4o" ,my_argues=opA_argues, opo_argues=opB_argues):
-            yield format_args_A(opA_argues), format_args_B(opB_argues), ""     
+            yield "\n\n".join(opA_argues.values()), "\n\n".join(opB_argues.values()), ""     
         for chunk in run_round(round=i+1,statement=statement, system_prompt=Oponent_B,model="gpt-4o",my_argues=opB_argues, opo_argues=opA_argues):
-            yield format_args_A(opA_argues), format_args_B(opB_argues), ""     
+            yield "\n\n".join(opA_argues.values()), "\n\n".join(opB_argues.values()), ""     
     
-    for chunk in judge_debate(3, statement=statement , model="gpt-5.2"):
-        yield format_args_A(opA_argues), format_args_B(opB_argues), format_judge(chunk)     
+    for chunk in judge_debate(i+1,statement=statement , model="gpt-5.2"):
+        yield "\n\n".join(opA_argues.values()), "\n\n".join(opB_argues.values()), f"Judgement: \n {chunk}"     
     
 
     
