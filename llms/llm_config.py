@@ -16,5 +16,7 @@ openrouter_client = OpenRouterClient(
     api_key=OPENROUTER_API_KEY,
 )
 
-
-__all__ = ["openai_client", "openrouter_client"]
+# VOICE Config
+favour_voice= "alloy"
+opposition_voice= "verse"
+judge_voice ="sage"
