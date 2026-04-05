@@ -7,7 +7,7 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 
 openai_client = OpenAI(
-    api_key=OPENAI_API_KEY
+api_key=OPENAI_API_KEY
 )
 
 
@@ -17,6 +17,6 @@ openrouter_client = OpenRouterClient(
 )
 
 # VOICE Config
-favour_voice= "alloy"
+favor_voice= "alloy"
 opposition_voice= "verse"
 judge_voice ="sage"

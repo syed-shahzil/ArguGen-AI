@@ -1,63 +1,3 @@
-/* Favor and Opposition Output Styling */
-#favor-output, #opposition-output {
-    white-space: pre-line;
-    font-size: 1.08rem;
-    font-family: 'Outfit', 'Inter', sans-serif;
-    margin-bottom: 20px;
-}
-
-#favor-output {
-    color: #22c55e;
-}
-
-#opposition-output {
-    color: #ef4444;
-}
-
-/* Each round separated visually */
-#favor-output, #opposition-output {
-    border-radius: 14px;
-    padding: 12px 18px;
-    background: rgba(34,197,94,0.07);
-    border: 1px solid rgba(34,197,94,0.13);
-}
-#opposition-output {
-    background: rgba(239,68,68,0.07);
-    border: 1px solid rgba(239,68,68,0.13);
-}
-
-/* Add spacing between rounds (double newlines) */
-#favor-output br, #opposition-output br {
-    display: block;
-    margin: 10px 0;
-    content: " ";
-}
-
-/* Judge verdict styling */
-#judge-output {
-    background: #1e1b4b;
-    padding: 40px 30px;
-    margin: 40px 0 40px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    border: 1px solid #4338ca;
-    color: #f8fafc;
-    font-size: 1.2rem;
-    font-family: 'Outfit', 'Inter', sans-serif;
-    font-weight: 600;
-}
-
-/* Judge title (add emoji in HTML) */
-#judge-output:before {
-    content: '⚖️ The Verdict\A';
-    display: block;
-    font-size: 2rem;
-    font-weight: 900;
-    margin-bottom: 10px;
-    color: #a5b4fc;
-    font-family: 'Outfit', 'Inter', sans-serif;
-}
 /* ==========================================================
    ArguGen_AI — Premium Debate Arena Stylesheet
    ========================================================== */
@@ -87,7 +27,7 @@ label, .label-wrap span {
 /* ── Header Banner ───────────────────────────────────────── */
 
 .header-banner {
-    background: #1e293b;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     padding: 45px 35px 40px;
     border-radius: 20px;
     text-align: center;
@@ -97,6 +37,22 @@ label, .label-wrap span {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
+}
+
+/* Subtle animated shimmer on the banner */
+.header-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 200%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.04) 50%, transparent 100%);
+    animation: bannerShimmer 6s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes bannerShimmer {
+    0%   { transform: translateX(-50%); }
+    50%  { transform: translateX(50%); }
+    100% { transform: translateX(-50%); }
 }
 
 .header-icon {
@@ -158,7 +114,7 @@ label, .label-wrap span {
 /* ── Start Button ────────────────────────────────────────── */
 
 #start-btn {
-    background: #3b82f6 !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%) !important;
     border: none !important;
     border-radius: 14px !important;
     color: white !important;
@@ -166,10 +122,15 @@ label, .label-wrap span {
     font-size: 1.1rem !important;
     padding: 12px 32px !important;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3) !important;
 }
 
 #start-btn:hover {
-    background: #2563eb !important;
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%) !important;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5) !important;
+    transform: translateY(-1px);
 }
 
 
@@ -185,7 +146,7 @@ label, .label-wrap span {
 .arena-divider {
     flex: 1;
     height: 1px;
-    background: #334155;
+    background: linear-gradient(90deg, transparent, #334155, transparent);
 }
 
 .arena-title {
@@ -199,11 +160,65 @@ label, .label-wrap span {
 }
 
 
+/* ══════════════════════════════════════════════════════════
+   AUDIO CONTROLS ROW — Isolated from debate cards
+   ══════════════════════════════════════════════════════════ */
+
+.audio-controls-row {
+    margin-bottom: 16px !important;
+    gap: 16px !important;
+}
+
+.audio-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+}
+
+.favor-audio-label {
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.15);
+}
+
+.opposition-audio-label {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+}
+
+/* Compact audio players */
+.audio-player-compact {
+    max-height: 54px;
+    overflow: hidden;
+}
+
+.audio-player-compact audio {
+    width: 100%;
+    height: 40px;
+}
+
+.judge-audio-player {
+    max-width: 500px;
+    margin: 8px auto 30px;
+}
+
+
 /* ── Scrollable Debate Columns ───────────────────────────── */
 
+.debate-arena {
+    gap: 16px !important;
+}
+
 .scrollable-column {
-    height: 650px;
+    height: 680px;
     overflow-y: auto;
+    overflow-anchor: auto;          /* keep scroll position stable */
     padding: 20px 18px;
     background: #0f172a;
     border-radius: 20px;
@@ -211,7 +226,6 @@ label, .label-wrap span {
     scrollbar-width: thin;
     scrollbar-color: #334155 transparent;
 }
-
 
 .scrollable-column::-webkit-scrollbar {
     width: 6px;
@@ -257,8 +271,7 @@ label, .label-wrap span {
 }
 
 /* Colored dots */
-.col-dot,
-.round-dot {
+.col-dot {
     display: inline-block;
     width: 12px;
     height: 12px;
@@ -268,10 +281,12 @@ label, .label-wrap span {
 
 .green-dot {
     background: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
 }
 
 .red-dot {
     background: #ef4444;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
 }
 
 
@@ -280,63 +295,100 @@ label, .label-wrap span {
    ══════════════════════════════════════════════════════════ */
 
 .round-card {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     border-radius: 16px;
     color: #ffffff;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: cardFadeIn 0.4s ease-out;
+}
+
+@keyframes cardFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .round-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
+/* Favor (green) */
 .favor-card {
     background: linear-gradient(135deg, #15803d 0%, #166534 100%);
-    border: 1px solid #14532d;
+    border: 1px solid rgba(34, 197, 94, 0.25);
 }
 
+/* Opposition (red) */
 .opposition-card {
     background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-    border: 1px solid #7f1d1d;
+    border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 /* Round Header inside the card */
 .round-header {
-    padding: 20px 24px 0px 24px;
+    padding: 18px 24px 0 24px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
-}
-
-/* Right align the opposition header */
-.opposition-header {
-    justify-content: flex-end;
-    flex-direction: row-reverse;
 }
 
 .round-title {
     font-weight: 800;
-    font-size: 1.15rem;
-}
-
-.green-title {
-    color: #ffffff;
-}
-
-.red-title {
-    color: #ffffff;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
 }
 
 /* Card Content */
 .round-content {
-    padding: 15px 24px 24px 24px;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #f8fafc;
-    font-weight: 500;
+    padding: 14px 24px 22px 24px;
+    font-size: 0.98rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.93);
+    font-weight: 400;
+}
+
+
+/* ── Streaming / Live Indicator ──────────────────────────── */
+
+.streaming {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: cardFadeIn 0.4s ease-out, streamPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes streamPulse {
+    0%, 100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+    50%      { box-shadow: 0 4px 25px rgba(255, 255, 255, 0.08); }
+}
+
+.streaming-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.15);
+    padding: 3px 10px;
+    border-radius: 20px;
+    animation: badgePulse 1.2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+}
+
+.typing-indicator::after {
+    content: '▍';
+    animation: blink 0.8s step-end infinite;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.1rem;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
 }
 
 
@@ -344,14 +396,23 @@ label, .label-wrap span {
    JUDGE / VERDICT CARD
    ══════════════════════════════════════════════════════════ */
 
+#judge-output {
+    /* Reset any Gradio defaults — the .judge-card inside handles styling */
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
 .judge-card {
-    background: #1e1b4b;
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
     padding: 45px 40px;
-    margin: 45px 0 50px;
+    margin: 40px 0 10px;
     border-radius: 20px;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     border: 1px solid #4338ca;
+    animation: cardFadeIn 0.5s ease-out;
 }
 
 .judge-title {
@@ -360,25 +421,44 @@ label, .label-wrap span {
     font-size: 2.3rem;
     color: #fbbf24;
     margin: 0 0 28px;
+    text-shadow: 0 2px 10px rgba(251, 191, 36, 0.2);
 }
 
 .judge-content {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     line-height: 1.85;
     text-align: left;
-    background: #0f172a;
+    background: rgba(15, 23, 42, 0.6);
     padding: 28px 32px;
     border-radius: 12px;
     border: 1px solid #312e81;
     color: #e2e8f0;
+    backdrop-filter: blur(8px);
 }
 
 
-/* ── Audio Players ───────────────────────────────────────── */
+/* ── General Audio Player Styling ────────────────────────── */
 
 audio {
     filter: invert(0.85) hue-rotate(180deg) brightness(1.3);
     border-radius: 12px;
-    margin-top: 16px;
     width: 100%;
+}
+
+
+/* ── Responsive Tweaks ───────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .scrollable-column {
+        height: 450px;
+    }
+    .header-banner h1 {
+        font-size: 2rem;
+    }
+    .judge-card {
+        padding: 28px 20px;
+    }
+    .judge-content {
+        padding: 18px 16px;
+    }
 }

@@ -1,8 +1,8 @@
 from config import openai_client
 
-def get_aprox_time(text):
+def get_approx_time(text):
     words= len(text.split())
-    return words/2.5
+    return words / 2.5
 
 def generate_voice(text, voice):
     try:
