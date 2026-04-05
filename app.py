@@ -1,59 +1,70 @@
+import os
 import gradio as gr
 from llms.llm_engine import debate_func_for_gradio
 
 def format_debate_func(statement):
-    for a_text, b_text, j_text, a_aud, b_aud, j_aud in debate_func_for_gradio(statement):
-        def format_blocks(text, side="favor"):
-            rounds = text.split("\n\n")
-            html = ""
-            for i, r in enumerate(rounds):
-                if r.strip():
-                    html += f"<div class='round-card {side}-card'><div class='round-card-title {side}-title'>Round {i+1}</div><div class='round-card-content {side}-content'>{r}</div></div>"
-            return html
-        
-        a_html = format_blocks(a_text, "favor")
-        b_html = format_blocks(b_text, "opposition")
-        
-        j_html = ""
+    for a_accumulated, b_accumulated, j_text, a_aud, b_aud, j_aud in debate_func_for_gradio(statement):
+        # Prepare plain text for each side, joined by double newlines for separation
+        a_text = "\n\n".join([v.strip() for v in a_accumulated if v.strip()])
+        b_text = "\n\n".join([v.strip() for v in b_accumulated if v.strip()])
+        j_text_clean = ""
         if j_text and j_text.strip():
-            clean_j = j_text.replace("Judgement: \n", "").replace("Judgement:\n", "").strip()
-            j_html = f"<div class='judge-card'><div class='judge-title'>⚖️ The Verdict</div><div class='judge-content'>{clean_j}</div></div>"
-            
-        yield a_html, b_html, j_html, a_aud, b_aud, j_aud
+            j_text_clean = j_text.replace("Judgement: \n", "").replace("Judgement:\n", "").strip()
+        yield (
+            a_text,
+            b_text,
+            j_text_clean,
+            a_aud if a_aud is not None else gr.skip(),
+            b_aud if b_aud is not None else gr.skip(),
+            j_aud if j_aud is not None else gr.skip()
+        )
 
-with gr.Blocks(theme=gr.themes.Monochrome(), css="style.css") as demo:
+
+css_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "style.css")
+with open(css_path, "r", encoding="utf-8") as f:
+    custom_css = f.read()
+
+
+with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css) as demo:
     gr.HTML("""
     <div class="header-banner">
-        <h1 style="display:flex; justify-content:center; align-items:center; gap: 10px;">🧠 ArguGen_AI</h1>
-        <h3>AI Debate in Realtime</h3>
-        <p>Enter a statement and watch two AI models eloquently debate each other.</p>
+        <div class="header-icon">🧠</div>
+        <h1>ArguGen<span class="highlight">_AI</span></h1>
+        <h3>AI-Powered Real-Time Debate Arena</h3>
+        <p>Enter a statement and watch two AI models engage in an eloquent real-time debate.</p>
     </div>
     """)
 
     with gr.Row():
         input_box = gr.Textbox(
-            label="Debate Topic",
+            label="💬 Debate Topic",
             placeholder="e.g., AI will replace Humans",
             lines=1,
             elem_id="topic-input"
         )
 
-    submit_btn = gr.Button("Start Debate 🚀", variant="primary")
+    submit_btn = gr.Button("⚡ Start Debate", variant="primary", elem_id="start-btn")
 
-    gr.HTML("<h2 class='arena-title'>🥊 The Debate Arena</h2>")
+    gr.HTML("""
+    <div class="arena-title-wrapper">
+        <div class="arena-divider"></div>
+        <h2 class="arena-title">🥊 The Debate Arena</h2>
+        <div class="arena-divider"></div>
+    </div>
+    """)
 
-    with gr.Row():
+    with gr.Row(elem_classes="debate-arena"):
         with gr.Column(elem_classes="scrollable-column"):
-            gr.HTML("<div style='color: #60a5fa; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; margin-bottom: 15px; font-weight: bold;'>🔵 In Favor (Opponent A)</div>")
-            left_output = gr.HTML()
+            gr.HTML("<div class='column-header favor-col-header'><span class='col-dot green-dot'></span> In Favor <span class='column-tag'>(Opponent A)</span></div>")
+            left_output = gr.HTML(elem_id="favor-output")
             left_audio = gr.Audio(autoplay=True)
-        
+
         with gr.Column(elem_classes="scrollable-column"):
-            gr.HTML("<div style='color: #f87171; border-bottom: 2px solid #ef4444; padding-bottom: 5px; margin-bottom: 15px; font-weight: bold; text-align: right;'>🔴 In Opposition (Opponent B)</div>")
-            right_output = gr.HTML()
+            gr.HTML("<div class='column-header opposition-col-header'><span class='col-dot red-dot'></span> In Opposition <span class='column-tag'>(Opponent B)</span></div>")
+            right_output = gr.HTML(elem_id="opposition-output")
             right_audio = gr.Audio(autoplay=True)
 
-    judge_output = gr.HTML()
+    judge_output = gr.HTML(elem_id="judge-output")
     judge_audio = gr.Audio(autoplay=True)
 
     submit_btn.click(
