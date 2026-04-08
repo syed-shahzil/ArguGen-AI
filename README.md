@@ -1,15 +1,16 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Python-3.13+-blue.svg" alt="Python Version">
-  <img src="https://img.shields.io/badge/UI-Gradio-orange.svg" alt="Gradio">
-  <img src="https://img.shields.io/badge/Database-PostgreSQL-blue.svg" alt="PostgreSQL">
-  <h1>🧠 ArguGen_AI</h1>
+  <img src="https://img.shields.io/badge/Python-3.13+-blue.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python Version">
+  <img src="https://img.shields.io/badge/UI-Gradio-orange.svg?style=for-the-badge&logo=appveyor&logoColor=white" alt="Gradio">
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-blue.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  
+  <h1>🌌 ArguGen_AI</h1>
   <p><strong>The Premier AI-Powered Real-Time Debate & Evaluation Arena</strong></p>
-  <p>Developed by <b>Syed Shahzil</b>, <i>AI Engineer</i></p>
+  <p>Developed by <b>Syed Shahzil</b>, <i>AI Engineer</i> 🦾</p>
 </div>
 
 ---
 
-## 🎥 System Demonstration
+## 🎞️ System Demonstration
 
 *A practical look at how ArguGen_AI conducts real-time LLM debates.*
 
@@ -19,7 +20,7 @@
 
 ---
 
-## 📖 Overview
+## 🧬 Core Overview
 
 **ArguGen_AI** is an advanced interactive platform that pits state-of-the-art Large Language Models against one another to rigorously debate complex statements. 
 
@@ -32,17 +33,17 @@ At the end of the 3-round debate, a fixed **Judge LLM** evaluates both the *Favo
 
 ---
 
-## 🚀 Key Features
+## ☄️ Key Capabilities
 
-- **Live Token-by-Token Streaming:** Lightning-fast, non-blocking asynchronous Python UI powered by Gradio's streaming generators.
-- **Dynamic Model Switching:** Seamlessly switch between global OpenAI providers (GPT-4o, GPT-3.5-Turbo) and local local runtimes (Ollama/Mistral/Llama3.1) entirely from the UI.
-- **The Best LLM Evaluation:** By placing models in constrained adversarial arenas, you can fundamentally stress-test LLM reasoning loops.
-- **Text-To-Speech Integration:** Simulates a fully immersive debate with voice synthesis for the Favor, Opposition, and Judge components.
-- **Persistent State UI Architecture:** A premium card-based static component UI that renders flawlessly without flickering.
+- **⚡ Token-by-Token Streaming:** Lightning-fast, non-blocking asynchronous Python UI powered by Gradio's streaming generators.
+- **🪐 Dynamic Model Switching:** Seamlessly switch between global OpenAI providers (GPT-4o, GPT-3.5-Turbo) and local runtimes (Ollama/Mistral/Llama3.1) entirely from the UI.
+- **🔬 Analytical Evaluation:** By placing models in constrained adversarial arenas, you can fundamentally stress-test LLM reasoning loops.
+- **🎙️ Speech Synthesis:** Simulates a fully immersive debate with voice synthesis for the Favor, Opposition, and Judge components.
+- **🧊 Persistent UI Architecture:** A premium card-based static component UI that renders flawlessly without flickering.
 
 ---
 
-## 🛠️ Technology Stack
+## 🦾 Infrastructure Stack
 
 ArguGen_AI features a highly robust and containerized architecture designed for scalability and fast execution.
 
@@ -58,7 +59,7 @@ ArguGen_AI features a highly robust and containerized architecture designed for 
 
 ---
 
-## ⚙️ Setup & Installation Guide
+## 🎛️ Deployment Guide
 
 Follow these steps to deploy ArguGen_AI locally.
 
@@ -105,7 +106,7 @@ Open the provided `localhost` link in your browser to access the ArguGen_AI Aren
 
 ---
 
-## 🏆 Evaluation & Judgement
+## ⚖️ The Judgement Protocol
 
 Why use ArguGen for evaluating LLMs? 
 Standard metrics (MMLU, HumanEval) fail to measure **nuance**, **resilience in conversation**, and **adversarial logic**. ArguGen_AI specifically acts as a red-teaming arena. The fixed Judge LLM ranks both agents based on:
@@ -116,5 +117,5 @@ Standard metrics (MMLU, HumanEval) fail to measure **nuance**, **resilience in c
 ---
 
 <div align="center">
-  <i>"Evaluating AI, by pitting AI against AI."</i>
+  <i>"Evaluating AI, by pitting AI against AI."</i> 🪩
 </div>
