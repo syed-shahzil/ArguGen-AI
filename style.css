@@ -215,8 +215,14 @@ label, .label-wrap span {
     gap: 16px !important;
 }
 
+.round-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .scrollable-column {
     height: 680px;
+    min-height: 680px;
     overflow-y: auto;
     overflow-anchor: auto;          /* keep scroll position stable */
     padding: 20px 18px;

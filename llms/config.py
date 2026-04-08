@@ -16,6 +16,10 @@ openrouter_client = OpenRouterClient(
     api_key=OPENROUTER_API_KEY,
 )
 
+OLLAMA_BASE_URL = "http://localhost:11434"
+ollama_url = f"{OLLAMA_BASE_URL}/api/chat"
+    
+
 # VOICE Config
 favor_voice= "alloy"
 opposition_voice= "verse"
