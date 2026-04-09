@@ -14,9 +14,7 @@
 
 *A practical look at how ArguGen_AI conducts real-time LLM debates.*
 
-<video src="assets/dummy_video.mp4" controls width="100%"></video>
-
-> **Note:** The above video is a placeholder. The correct demonstration video will be updated shortly!
+<video src="assets/demo_video.mp4" controls width="100%"></video>
 
 ---
 
@@ -71,12 +69,12 @@ Follow these steps to deploy ArguGen_AI locally.
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/ArguGen_AI.git
+git clone https://github.com/syed-shahzil/ArguGen-AI
 cd ArguGen_AI
 ```
 
 ### 3. Start the Containerized Database
-We use a containerized PostgreSQL instance to manage persistence and state evaluation reliably.
+I use a containerized PostgreSQL instance to manage persistence and state evaluation reliably.
 ```bash
 # From within the repository directory (assuming a docker-compose.yaml is present)
 docker-compose up -d

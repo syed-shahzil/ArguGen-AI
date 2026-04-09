@@ -49,7 +49,7 @@ def build_judge_card(judge_text):
 
 # ── Formatting wrapper ──────────────────────────────────────
 
-def format_debate_func(statement, favor_model, opp_model):
+def format_debate_func(statement, favor_model, opp_model, enable_audio):
     """
     Consumes the generator from the backend and yields structured HTML.
     Crucially, it uses gr.skip() for components that have not changed,
@@ -67,7 +67,7 @@ def format_debate_func(statement, favor_model, opp_model):
         None, None, None
     )
 
-    for active_side, active_round, a_accum, b_accum, j_text, a_aud, b_aud, j_aud in debate_func_for_gradio(statement, favor_model, opp_model):
+    for active_side, active_round, a_accum, b_accum, j_text, a_aud, b_aud, j_aud in debate_func_for_gradio(statement, favor_model, opp_model, enable_audio):
         outputs = []
         
         # 1. Favor Cards (0, 1, 2)
@@ -160,6 +160,11 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css) as demo:
             label="Opposition Model (OpenAI or Ollama)",
             scale=1
         )
+        audio_toggle = gr.Checkbox(
+            label="🔊 Enable Audio Speech",
+            value=True,
+            scale=1
+        )
 
     submit_btn = gr.Button("⚡ Start Debate", variant="primary", elem_id="start-btn")
 
@@ -199,7 +204,7 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css) as demo:
     all_outputs = favor_cards + opp_cards + [judge_output, left_audio, right_audio, judge_audio]
 
     # Disable inputs during generation
-    interactive_components = [submit_btn, input_box, favor_model_drop, opp_model_drop]
+    interactive_components = [submit_btn, input_box, favor_model_drop, opp_model_drop, audio_toggle]
 
     def disable_inputs():
         return [gr.update(interactive=False)] * len(interactive_components)
@@ -213,7 +218,7 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css) as demo:
         outputs=interactive_components
     ).then(
         fn=format_debate_func,
-        inputs=[input_box, favor_model_drop, opp_model_drop],
+        inputs=[input_box, favor_model_drop, opp_model_drop, audio_toggle],
         outputs=all_outputs,
     ).then(
         fn=enable_inputs,

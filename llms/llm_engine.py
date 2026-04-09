@@ -24,6 +24,7 @@ def run_round(round, model, system_prompt, my_argues, opo_argues, statement=deba
                     {
                         "role": "user",
                         "content": json.dumps({
+                            'Note': "If round 1, Focus on debating statemnet than oponant recent argues if so",
                             "round": round,
                             "debate_statement": statement,
                             "Your_recent_argues": my_argues,
@@ -51,6 +52,7 @@ def run_round(round, model, system_prompt, my_argues, opo_argues, statement=deba
                     {
                         "role": "user",
                         "content": json.dumps({
+                            "Note": "If round 1, Focus on debating statemnet than oponant recent argues if so",
                             "round": round,
                             "debate_statement": statement,
                             "Your_recent_argues": my_argues,
@@ -107,7 +109,7 @@ def active_sleep(duration, a_acc, b_acc, j_text=""):
         yield "none", 0, list(a_acc), list(b_acc), f"Judgement: \n {j_text}" if j_text else "", None, None, None
     time.sleep(max(0, duration - int(duration)))
 
-def debate_func_for_gradio(statement, favor_model, opp_model):
+def debate_func_for_gradio(statement, favor_model, opp_model, enable_audio=True):
     a_accumulated = []
     b_accumulated = []
 
@@ -120,27 +122,36 @@ def debate_func_for_gradio(statement, favor_model, opp_model):
             a_accumulated[-1] += chunk
             yield "A", i, list(a_accumulated), list(b_accumulated), "", None, None, None
 
-        audio_A = generate_voice(text=a_accumulated[-1], voice=favor_voice)
-        yield "none", i, list(a_accumulated), list(b_accumulated), "", audio_A, None, None
-        yield from active_sleep(get_approx_time(text=a_accumulated[-1]), a_accumulated, b_accumulated)
+        if enable_audio:
+            audio_A = generate_voice(text=a_accumulated[-1], voice=favor_voice)
+            yield "none", i, list(a_accumulated), list(b_accumulated), "", audio_A, None, None
+            yield from active_sleep(get_approx_time(text=a_accumulated[-1]), a_accumulated, b_accumulated)
+        else:
+            yield "none", i, list(a_accumulated), list(b_accumulated), "", None, None, None
 
         b_accumulated.append("")
         for chunk in run_round(round=i+1, statement=statement, system_prompt=Opponent_B, model=opp_model, my_argues=b_accumulated[:-1], opo_argues=a_accumulated, local_mode=local_B):
             b_accumulated[-1] += chunk
             yield "B", i, list(a_accumulated), list(b_accumulated), "", None, None, None
 
-        audio_B = generate_voice(text=b_accumulated[-1], voice=opposition_voice)
-        yield "none", i, list(a_accumulated), list(b_accumulated), "", None, audio_B, None
-        yield from active_sleep(get_approx_time(text=b_accumulated[-1]), a_accumulated, b_accumulated)
+        if enable_audio:
+            audio_B = generate_voice(text=b_accumulated[-1], voice=opposition_voice)
+            yield "none", i, list(a_accumulated), list(b_accumulated), "", None, audio_B, None
+            yield from active_sleep(get_approx_time(text=b_accumulated[-1]), a_accumulated, b_accumulated)
+        else:
+            yield "none", i, list(a_accumulated), list(b_accumulated), "", None, None, None
 
     j_text = ""
     for chunk in judge_debate(total_rounds=i+1, statement=statement, model="gpt-4o", opA_argues=a_accumulated, opB_argues=b_accumulated):
         j_text += chunk
         yield "J", 0, list(a_accumulated), list(b_accumulated), f"Judgement: \n {j_text}", None, None, None
 
-    audio_judge = generate_voice(text=j_text, voice=judge_voice)
-    yield "none", 0, list(a_accumulated), list(b_accumulated), f"Judgement: \n {j_text}", None, None, audio_judge
-    yield from active_sleep(get_approx_time(text=j_text), a_accumulated, b_accumulated, j_text)
+    if enable_audio:
+        audio_judge = generate_voice(text=j_text, voice=judge_voice)
+        yield "none", 0, list(a_accumulated), list(b_accumulated), f"Judgement: \n {j_text}", None, None, audio_judge
+        yield from active_sleep(get_approx_time(text=j_text), a_accumulated, b_accumulated, j_text)
+    else:
+        yield "none", 0, list(a_accumulated), list(b_accumulated), f"Judgement: \n {j_text}", None, None, None
 
 
 if __name__ == "__main__":
